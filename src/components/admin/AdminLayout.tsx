@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Database, FileText, FolderTree,
   Tags, CircleDot, ImageIcon, FolderArchive, Settings, LogOut,
   Menu, X, ExternalLink, Shield, Network,
-  Gauge, Hash, Lightbulb,
+  Gauge, Hash, Lightbulb, Download,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { usePortalData } from '@/hooks/usePortalData';
@@ -24,6 +24,7 @@ const navItems = [
   { label: 'Etiquetas', path: '/admin/tags', icon: Tags },
   { label: 'Estados', path: '/admin/statuses', icon: CircleDot },
   { label: 'Importar', path: '/admin/import', icon: FolderArchive },
+  { label: 'Exportar datos', path: '/admin/export', icon: Download },
   { label: 'Configuración', path: '/admin/settings', icon: Settings },
 ];
 

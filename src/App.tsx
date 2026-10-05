@@ -32,6 +32,7 @@ import { AdminImportPage } from '@/pages/admin/AdminImportPage';
 import { AdminIntegrityDomainsPage } from '@/pages/admin/AdminIntegrityDomainsPage';
 import { AdminIdentifiersPage } from '@/pages/admin/AdminIdentifiersPage';
 import { AdminAssessmentsPage } from '@/pages/admin/AdminAssessmentsPage';
+import { AdminExportPage } from '@/pages/admin/AdminExportPage';
 
 function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -79,6 +80,7 @@ function App() {
           <Route path="/admin/integrity-domains" element={<AdminLayout><AdminIntegrityDomainsPage /></AdminLayout>} />
           <Route path="/admin/identifiers" element={<AdminLayout><AdminIdentifiersPage /></AdminLayout>} />
           <Route path="/admin/assessments" element={<AdminLayout><AdminAssessmentsPage /></AdminLayout>} />
+          <Route path="/admin/export" element={<AdminLayout><AdminExportPage /></AdminLayout>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
