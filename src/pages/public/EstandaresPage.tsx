@@ -39,26 +39,6 @@ const standards: Standard[] = [
     urlLabel: 'opendatacharter.org',
   },
   {
-    name: 'PIDA',
-    fullName: 'Programa Interamericano de Datos Abiertos contra la Corrupción (OEA)',
-    logo: 'https://www.oas.org/ext/es/democracia/programa-interamericano-de-datos-abiertos-para-prevenir-y-combatir-la-corrupcion-pida',
-    color: 'text-cnc-700',
-    bgColor: 'bg-cnc-50',
-    description:
-      'Iniciativa de la Organización de los Estados Americanos (OEA) que identifica conjuntos de datos prioritarios para prevenir y detectar la corrupción. Define un conjunto mínimo de datos que los países deberían publicar para fortalecer la transparencia en la gestión pública.',
-    principles: [
-      'Conjuntos de datos prioritarios anticorrupción',
-      'Mapeo de disponibilidad por país',
-      'Recomendaciones de publicación por conjuntos',
-      'Enfoque en prevención, detección e investigación',
-      'Interoperabilidad entre conjuntos mediante identificadores comunes',
-    ],
-    relevance:
-      'El portal mapea los conjuntos PIDA y evalúa su disponibilidad en Guatemala, identificando cuáles están publicados, cuáles son parciales y cuáles constituyen brechas prioritarias.',
-    url: 'https://www.oas.org/ext/es/democracia/programa-interamericano-de-datos-abiertos-para-prevenir-y-combatir-la-corrupcion-pida',
-    urlLabel: 'oas.org',
-  },
-  {
     name: 'CoST Transparency',
     fullName: 'Construction Sector Transparency Initiative',
     logo: 'https://infrastructuretransparency.org/wp-content/themes/cost/images/logo.png',
@@ -117,26 +97,6 @@ const standards: Standard[] = [
       'El portal busca integrar datos de propiedad beneficiaria para permitir cruces entre empresas proveedoras del Estado y funcionarios públicos, fortaleciendo la detección de riesgos de corrupción.',
     url: 'https://www.openownership.org/es/',
     urlLabel: 'openownership.org',
-  },
-  {
-    name: 'Fiscal Transparency',
-    fullName: 'Transparencia Fiscal (OCGP / FTE)',
-    logo: '',
-    color: 'text-green-700',
-    bgColor: 'bg-green-50',
-    description:
-      'Conjunto de estándares internacionales que promueven la publicación de datos fiscales abiertos: presupuesto, ejecución del gasto, ingresos, deuda pública y transferencias. Incluye los principios del Global Initiative for Fiscal Transparency (GIFT) y la Participation Initiative.',
-    principles: [
-      'Publicación oportuna del presupuesto y su ejecución',
-      'Datos sobre ingresos, gasto, deuda y transferencias',
-      'Desglose por unidad ejecutora y programa',
-      'Comparabilidad entre años y unidades',
-      'Participación ciudadana en el ciclo fiscal',
-    ],
-    relevance:
-      'El portal integra datos presupuestarios y de ejecución del gasto que permiten seguir el flujo de recursos públicos desde la asignación hasta la entrega de bienes y servicios.',
-    url: 'https://www.fiscaltransparency.net/',
-    urlLabel: 'fiscaltransparency.net',
   },
 ];
 
