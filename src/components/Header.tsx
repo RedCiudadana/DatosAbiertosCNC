@@ -1,8 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { Menu, X, Search, Database, Shield, Instagram, Globe } from 'lucide-react';
+import { Menu, X, Search, Shield, Instagram, Globe } from 'lucide-react';
 import { usePortalData } from '@/hooks/usePortalData';
-import { DynamicIcon } from '@/components/DynamicIcon';
 
 const navLinks = [
   { label: 'Inicio', path: '/' },
@@ -82,18 +81,12 @@ export function Header() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 shrink-0">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cnc-700 text-white">
-              <Database className="h-5 w-5" />
-            </div>
-            <div className="hidden sm:block">
-              <div className="text-sm font-bold text-cnc-900 leading-tight">
-                {settings.portal_name || 'CNC Guatemala'}
-              </div>
-              <div className="text-xs text-gray-500 leading-tight">
-                {settings.portal_subtitle || 'Datos Abiertos contra la Corrupción en Guatemala'}
-              </div>
-            </div>
+          <Link to="/" className="flex items-center gap-3 shrink-0 bg-cnc-900 rounded-lg px-3 py-1.5 hover:bg-cnc-800 transition-colors">
+            <img
+              src="https://guatemala.gob.gt/wp-content/uploads/2024/09/GOBHorizontal-Blanco_1.png"
+              alt="Gobierno de Guatemala"
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Desktop nav */}

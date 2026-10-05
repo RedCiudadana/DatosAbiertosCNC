@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Database, Mail, Shield, AlertCircle } from 'lucide-react';
+import { Mail, Shield, AlertCircle } from 'lucide-react';
 import { usePortalData } from '@/hooks/usePortalData';
 
 export function Footer() {
@@ -11,13 +11,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cnc-700 text-white">
-                <Database className="h-5 w-5" />
-              </div>
-              <div>
-                <div className="text-sm font-bold text-white">{settings.portal_name || 'CNC Guatemala'}</div>
-                <div className="text-xs text-gray-400">{settings.portal_subtitle || 'Plataforma Nacional de Datos para la Integridad'}</div>
-              </div>
+              <img
+                src="https://guatemala.gob.gt/wp-content/uploads/2024/09/GOBHorizontal-Blanco_1.png"
+                alt="Gobierno de Guatemala"
+                className="h-10 w-auto"
+              />
             </div>
             <p className="text-sm text-gray-400 max-w-md leading-relaxed">
               {settings.footer_text || 'Datos para la Integridad es una iniciativa para facilitar el acceso, análisis y aprovechamiento de información pública estratégica para fortalecer la integridad en Guatemala.'}
@@ -72,10 +70,9 @@ export function Footer() {
           <p className="text-xs text-gray-500">
             © {new Date().getFullYear()} {settings.portal_name || 'CNC Guatemala'}. Todos los derechos reservados.
           </p>
-          <div className="flex items-center gap-2 text-xs text-gray-500">
-            <Shield className="h-3.5 w-3.5 text-teal-400" />
+          <p className="text-xs text-gray-500">
             {settings.portal_subtitle || 'Plataforma Nacional de Datos para la Integridad'}
-          </div>
+          </p>
         </div>
       </div>
     </footer>
