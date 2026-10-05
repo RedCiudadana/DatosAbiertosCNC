@@ -209,14 +209,12 @@ export function HomePage() {
             Ver todos <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { name: 'Open Data Charter', logo: 'https://opendatacharter.org/wp-content/themes/open-data-theme/images/svg/ODC_Logo.svg' },
-            { name: 'PIDA', logo: '' },
             { name: 'CoST Transparency', logo: 'https://infrastructuretransparency.org/wp-content/themes/cost/images/logo.png' },
             { name: 'Open Contracting', logo: 'https://dobt-screendoor.s3.amazonaws.com/uploads/45e5b3913c0a278f1bc598b6bdcb2fee/thumb_OC_logo_RGB_grey__1_.png' },
             { name: 'Open Ownership', logo: 'https://eiti.org/sites/default/files/styles/logo/public/supporter_logo/opo_rgb_logo_purple.png?itok=0IxWe1wQ' },
-            { name: 'Fiscal Transparency', logo: '' },
           ].map((std) => (
             <Link
               key={std.name}

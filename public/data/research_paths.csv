@@ -1,5 +1,5 @@
 title,description,icon_name,destination_url,display_order
-Seguir el dinero,Rastrea cómo se asigna y ejecuta el presupuesto público.,Banknote,/explorar?category=seguimiento-de-dinero,1
+Seguir el dinero,Rastrea cómo se asigna y ejecuta el presupuesto público.,Banknote,/explorar?category=recursos-publicos,1
 Investigar un proveedor,Consulta qué empresas contratan con el Estado y cuánto reciben.,Building2,/explorar?q=proveedores,2
 Analizar una compra,"Revisa procesos de adquisición, adjudicaciones y contratos.",FileText,/explorar?q=compras,3
 Revisar una obra pública,"Verifica proyectos de infraestructura, inversión y avance.",HardHat,/explorar?q=infraestructura,4
