@@ -7,8 +7,6 @@ import {
   Gauge, Hash, Lightbulb, Download,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { usePortalData } from '@/hooks/usePortalData';
-import { RESOURCE_TYPES } from '@/lib/constants';
 import type { ReactNode } from 'react';
 
 const navItems = [
@@ -30,7 +28,6 @@ const navItems = [
 
 export function AdminLayout({ children }: { children: ReactNode }) {
   const { session, profile, signOut, loading } = useAuth();
-  const { settings } = usePortalData();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -52,18 +49,20 @@ export function AdminLayout({ children }: { children: ReactNode }) {
       <aside className={`fixed lg:sticky top-0 left-0 z-40 h-screen w-64 bg-cnc-900 text-white flex flex-col transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         {/* Logo */}
         <div className="flex items-center justify-between p-4 border-b border-cnc-800">
-          <Link to="/admin" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cnc-700">
-              <Shield className="h-5 w-5 text-teal-400" />
-            </div>
-            <div>
-              <div className="text-sm font-bold">{settings.portal_name || 'CNC Admin'}</div>
-              <div className="text-xs text-cnc-300">{settings.portal_subtitle || 'Datos para la Integridad'}</div>
-            </div>
+          <Link to="/admin" className="flex items-center gap-3 flex-1 min-w-0">
+            <img
+              src="https://guatemala.gob.gt/wp-content/uploads/2024/09/GOBHorizontal-Blanco_1.png"
+              alt="Gobierno de Guatemala"
+              className="h-9 w-auto max-w-[160px] object-contain"
+            />
           </Link>
-          <button className="lg:hidden text-gray-400" onClick={() => setSidebarOpen(false)}>
+          <button className="lg:hidden text-gray-400 shrink-0" onClick={() => setSidebarOpen(false)}>
             <X className="h-5 w-5" />
           </button>
+        </div>
+        <div className="px-4 pb-3 border-b border-cnc-800">
+          <div className="text-xs font-semibold text-teal-400">Datos para la Integridad</div>
+          <div className="text-[10px] text-cnc-400 mt-0.5">Datos Abiertos contra la Corrupción en Guatemala</div>
         </div>
 
         {/* Nav */}
