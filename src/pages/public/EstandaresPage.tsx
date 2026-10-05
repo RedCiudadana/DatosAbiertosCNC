@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
 import {
-  Globe, FileText, ShieldCheck, Users, Building2, Banknote,
   ArrowRight, ExternalLink, CheckCircle2, BookOpen,
 } from 'lucide-react';
 
 interface Standard {
   name: string;
   fullName: string;
-  icon: typeof Globe;
+  logo: string;
   color: string;
   bgColor: string;
   description: string;
@@ -21,7 +20,7 @@ const standards: Standard[] = [
   {
     name: 'Open Data Charter',
     fullName: 'Carta de Datos Abiertos',
-    icon: Globe,
+    logo: 'https://opendatacharter.org/wp-content/themes/open-data-theme/images/svg/ODC_Logo.svg',
     color: 'text-blue-700',
     bgColor: 'bg-blue-50',
     description:
@@ -36,33 +35,33 @@ const standards: Standard[] = [
     ],
     relevance:
       'El portal adopta los principios de la Carta para asegurar que los datos anticorrupción se publiquen en formatos abiertos, de manera oportuna y con documentación que permita su reutilización.',
-    url: 'https://opendatacharter.net/',
-    urlLabel: 'opendatacharter.net',
+    url: 'https://opendatacharter.org/',
+    urlLabel: 'opendatacharter.org',
   },
   {
     name: 'PIDA',
-    fullName: 'Plan Integral de Datos Abiertos contra la Corrupción (OEA)',
-    icon: FileText,
+    fullName: 'Programa Interamericano de Datos Abiertos contra la Corrupción (OEA)',
+    logo: 'https://www.oas.org/ext/es/democracia/programa-interamericano-de-datos-abiertos-para-prevenir-y-combatir-la-corrupcion-pida',
     color: 'text-cnc-700',
     bgColor: 'bg-cnc-50',
     description:
-      'Iniciativa de la Organización de los Estados Americanos (OEA) que identifica 30 conjuntos de datos prioritarios para prevenir y detectar la corrupción. Define un conjunto mínimo de datos que los países deberían publicar para fortalecer la transparencia en la gestión pública.',
+      'Iniciativa de la Organización de los Estados Americanos (OEA) que identifica conjuntos de datos prioritarios para prevenir y detectar la corrupción. Define un conjunto mínimo de datos que los países deberían publicar para fortalecer la transparencia en la gestión pública.',
     principles: [
-      '30 conjuntos de datos prioritarios anticorrupción',
+      'Conjuntos de datos prioritarios anticorrupción',
       'Mapeo de disponibilidad por país',
       'Recomendaciones de publicación por conjuntos',
       'Enfoque en prevención, detección e investigación',
       'Interoperabilidad entre conjuntos mediante identificadores comunes',
     ],
     relevance:
-      'El portal mapea los 30 conjuntos PIDA y evalúa su disponibilidad en Guatemala, identificando cuáles están publicados, cuáles son parciales y cuáles constituyen brechas prioritarias.',
-    url: 'https://www.oas.org/es/sla/dlc/transparent_use_public_resources.asp',
+      'El portal mapea los conjuntos PIDA y evalúa su disponibilidad en Guatemala, identificando cuáles están publicados, cuáles son parciales y cuáles constituyen brechas prioritarias.',
+    url: 'https://www.oas.org/ext/es/democracia/programa-interamericano-de-datos-abiertos-para-prevenir-y-combatir-la-corrupcion-pida',
     urlLabel: 'oas.org',
   },
   {
     name: 'CoST Transparency',
     fullName: 'Construction Sector Transparency Initiative',
-    icon: Building2,
+    logo: 'https://infrastructuretransparency.org/wp-content/themes/cost/images/logo.png',
     color: 'text-teal-700',
     bgColor: 'bg-teal-50',
     description:
@@ -76,13 +75,13 @@ const standards: Standard[] = [
     ],
     relevance:
       'El portal incorpora datos sobre proyectos de infraestructura pública, contratos de obra y modificaciones, alineados con el estándar CoST para permitir el seguimiento ciudadano de las obras.',
-    url: 'https://infrastructuretransparency.org/',
+    url: 'https://infrastructuretransparency.org/es/',
     urlLabel: 'infrastructuretransparency.org',
   },
   {
     name: 'Open Contracting',
     fullName: 'Open Contracting Data Standard (OCDS)',
-    icon: ShieldCheck,
+    logo: 'https://dobt-screendoor.s3.amazonaws.com/uploads/45e5b3913c0a278f1bc598b6bdcb2fee/thumb_OC_logo_RGB_grey__1_.png',
     color: 'text-orange-700',
     bgColor: 'bg-orange-50',
     description:
@@ -96,13 +95,13 @@ const standards: Standard[] = [
     ],
     relevance:
       'El portal estructura los datos de contratos públicos siguiendo el modelo OCDS, permitiendo rastrear quién contrató con el Estado, bajo qué condiciones y qué resultados se entregaron.',
-    url: 'https://www.open-contracting.org/',
+    url: 'https://www.open-contracting.org/es/',
     urlLabel: 'open-contracting.org',
   },
   {
     name: 'Open Ownership',
     fullName: 'Beneficial Ownership Transparency',
-    icon: Users,
+    logo: 'https://eiti.org/sites/default/files/styles/logo/public/supporter_logo/opo_rgb_logo_purple.png?itok=0IxWe1wQ',
     color: 'text-purple-700',
     bgColor: 'bg-purple-50',
     description:
@@ -116,13 +115,13 @@ const standards: Standard[] = [
     ],
     relevance:
       'El portal busca integrar datos de propiedad beneficiaria para permitir cruces entre empresas proveedoras del Estado y funcionarios públicos, fortaleciendo la detección de riesgos de corrupción.',
-    url: 'https://www.openownership.org/',
+    url: 'https://www.openownership.org/es/',
     urlLabel: 'openownership.org',
   },
   {
     name: 'Fiscal Transparency',
     fullName: 'Transparencia Fiscal (OCGP / FTE)',
-    icon: Banknote,
+    logo: '',
     color: 'text-green-700',
     bgColor: 'bg-green-50',
     description:
@@ -155,14 +154,9 @@ export function EstandaresPage() {
           <div className="absolute inset-0 bg-gradient-to-br from-cnc-900/90 to-cnc-950/85" />
         </div>
         <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-teal-300 backdrop-blur-sm">
-              <Globe className="h-6 w-6" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-white sm:text-3xl">Estándares internacionales</h1>
-              <p className="text-cnc-200 mt-1">Marcos globales que guían la publicación de datos para la integridad</p>
-            </div>
+          <div>
+            <h1 className="text-2xl font-bold text-white sm:text-3xl">Estándares internacionales</h1>
+            <p className="text-cnc-200 mt-1">Marcos globales que guían la publicación de datos para la integridad</p>
           </div>
         </div>
       </section>
@@ -184,9 +178,22 @@ export function EstandaresPage() {
             <div key={std.name} className="card overflow-hidden group hover:shadow-lg transition-shadow">
               {/* Header */}
               <div className={`px-6 py-5 ${std.bgColor} border-b border-gray-100`}>
-                <div className="flex items-start gap-4">
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-sm ${std.color} shrink-0`}>
-                    <std.icon className="h-6 w-6" />
+                <div className="flex items-center gap-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white shadow-sm shrink-0 overflow-hidden">
+                    {std.logo ? (
+                      <img
+                        src={std.logo}
+                        alt={`Logo ${std.name}`}
+                        className="max-h-10 max-w-10 object-contain"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <span className={`text-xl font-bold ${std.color}`}>
+                        {std.name.charAt(0)}
+                      </span>
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <h2 className="text-lg font-bold text-gray-900">{std.name}</h2>

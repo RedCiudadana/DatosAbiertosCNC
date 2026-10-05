@@ -272,20 +272,31 @@ export function HomePage() {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {[
-            { name: 'Open Data Charter', icon: 'Globe' },
-            { name: 'PIDA', icon: 'FileText' },
-            { name: 'CoST Transparency', icon: 'Building2' },
-            { name: 'Open Contracting', icon: 'ShieldCheck' },
-            { name: 'Open Ownership', icon: 'Users' },
-            { name: 'Fiscal Transparency', icon: 'Banknote' },
+            { name: 'Open Data Charter', logo: 'https://opendatacharter.org/wp-content/themes/open-data-theme/images/svg/ODC_Logo.svg' },
+            { name: 'PIDA', logo: '' },
+            { name: 'CoST Transparency', logo: 'https://infrastructuretransparency.org/wp-content/themes/cost/images/logo.png' },
+            { name: 'Open Contracting', logo: 'https://dobt-screendoor.s3.amazonaws.com/uploads/45e5b3913c0a278f1bc598b6bdcb2fee/thumb_OC_logo_RGB_grey__1_.png' },
+            { name: 'Open Ownership', logo: 'https://eiti.org/sites/default/files/styles/logo/public/supporter_logo/opo_rgb_logo_purple.png?itok=0IxWe1wQ' },
+            { name: 'Fiscal Transparency', logo: '' },
           ].map((std) => (
             <Link
               key={std.name}
               to="/estandares"
               className="card group p-4 text-center hover:border-cnc-300 hover:shadow-md transition-all"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cnc-50 text-cnc-700 group-hover:bg-cnc-100 transition-colors mx-auto mb-2">
-                <DynamicIcon name={std.icon} className="h-5 w-5" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cnc-50 group-hover:bg-cnc-100 transition-colors mx-auto mb-2 overflow-hidden">
+                {std.logo ? (
+                  <img
+                    src={std.logo}
+                    alt={std.name}
+                    className="max-h-7 max-w-7 object-contain"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <span className="text-sm font-bold text-cnc-700">{std.name.charAt(0)}</span>
+                )}
               </div>
               <div className="text-xs font-semibold text-gray-900 group-hover:text-cnc-700">{std.name}</div>
             </Link>
