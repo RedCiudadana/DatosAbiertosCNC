@@ -1,10 +1,10 @@
 import { Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import {
-  LayoutDashboard, Database, Building2, FileText, FolderTree,
+  LayoutDashboard, Database, FileText, FolderTree,
   Tags, CircleDot, ImageIcon, FolderArchive, Settings, LogOut,
-  Menu, X, ExternalLink, Shield, Network, BookOpen,
-  MessageSquare, Gauge, Hash, Flag, Lightbulb,
+  Menu, X, ExternalLink, Shield, Network,
+  Gauge, Hash, Lightbulb,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { usePortalData } from '@/hooks/usePortalData';
@@ -16,15 +16,10 @@ const navItems = [
   { label: 'Datos', path: '/admin/datasets', icon: Database },
   { label: 'Mapa de datos', path: '/admin', icon: Network, isLink: true },
   { label: 'Casos de uso', path: '/admin/use-cases', icon: Lightbulb },
-  { label: 'Historias', path: '/admin/data-stories', icon: BookOpen },
-  { label: 'Brechas', path: '/admin', icon: Flag, isLink: true },
-  { label: 'Agenda de apertura', path: '/admin/opening-agenda', icon: Flag },
-  { label: 'Instituciones', path: '/admin/institutions', icon: Building2 },
   { label: 'Categorías', path: '/admin/categories', icon: FolderTree },
   { label: 'Ejes de integridad', path: '/admin/integrity-domains', icon: Shield },
   { label: 'Identificadores', path: '/admin/identifiers', icon: Hash },
   { label: 'Evaluaciones', path: '/admin/assessments', icon: Gauge },
-  { label: 'Comentarios', path: '/admin/feedback', icon: MessageSquare },
   { label: 'Recursos', path: '/admin/resources', icon: FileText },
   { label: 'Etiquetas', path: '/admin/tags', icon: Tags },
   { label: 'Estados', path: '/admin/statuses', icon: CircleDot },

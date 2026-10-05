@@ -23,7 +23,6 @@ import { AdminDashboardPage } from '@/pages/admin/AdminDashboardPage';
 import { AdminDatasetsListPage } from '@/pages/admin/AdminDatasetsListPage';
 import { AdminDatasetEditPage } from '@/pages/admin/AdminDatasetEditPage';
 import { AdminCategoriesPage } from '@/pages/admin/AdminCategoriesPage';
-import { AdminInstitutionsPage } from '@/pages/admin/AdminInstitutionsPage';
 import { AdminStatusesPage } from '@/pages/admin/AdminStatusesPage';
 import { AdminTagsPage } from '@/pages/admin/AdminTagsPage';
 import { AdminUseCasesPage } from '@/pages/admin/AdminUseCasesPage';
@@ -31,9 +30,6 @@ import { AdminResourcesPage } from '@/pages/admin/AdminResourcesPage';
 import { AdminSettingsPage } from '@/pages/admin/AdminSettingsPage';
 import { AdminImportPage } from '@/pages/admin/AdminImportPage';
 import { AdminIntegrityDomainsPage } from '@/pages/admin/AdminIntegrityDomainsPage';
-import { AdminDataStoriesPage } from '@/pages/admin/AdminDataStoriesPage';
-import { AdminFeedbackPage } from '@/pages/admin/AdminFeedbackPage';
-import { AdminOpeningAgendaPage } from '@/pages/admin/AdminOpeningAgendaPage';
 import { AdminIdentifiersPage } from '@/pages/admin/AdminIdentifiersPage';
 import { AdminAssessmentsPage } from '@/pages/admin/AdminAssessmentsPage';
 
@@ -74,7 +70,6 @@ function App() {
           <Route path="/admin/datasets/new" element={<AdminLayout><AdminDatasetEditPage /></AdminLayout>} />
           <Route path="/admin/datasets/:id" element={<AdminLayout><AdminDatasetEditPage /></AdminLayout>} />
           <Route path="/admin/categories" element={<AdminLayout><AdminCategoriesPage /></AdminLayout>} />
-          <Route path="/admin/institutions" element={<AdminLayout><AdminInstitutionsPage /></AdminLayout>} />
           <Route path="/admin/resources" element={<AdminLayout><AdminResourcesPage /></AdminLayout>} />
           <Route path="/admin/use-cases" element={<AdminLayout><AdminUseCasesPage /></AdminLayout>} />
           <Route path="/admin/tags" element={<AdminLayout><AdminTagsPage /></AdminLayout>} />
@@ -82,9 +77,6 @@ function App() {
           <Route path="/admin/import" element={<AdminLayout><AdminImportPage /></AdminLayout>} />
           <Route path="/admin/settings" element={<AdminLayout><AdminSettingsPage /></AdminLayout>} />
           <Route path="/admin/integrity-domains" element={<AdminLayout><AdminIntegrityDomainsPage /></AdminLayout>} />
-          <Route path="/admin/data-stories" element={<AdminLayout><AdminDataStoriesPage /></AdminLayout>} />
-          <Route path="/admin/feedback" element={<AdminLayout><AdminFeedbackPage /></AdminLayout>} />
-          <Route path="/admin/opening-agenda" element={<AdminLayout><AdminOpeningAgendaPage /></AdminLayout>} />
           <Route path="/admin/identifiers" element={<AdminLayout><AdminIdentifiersPage /></AdminLayout>} />
           <Route path="/admin/assessments" element={<AdminLayout><AdminAssessmentsPage /></AdminLayout>} />
         </Routes>
