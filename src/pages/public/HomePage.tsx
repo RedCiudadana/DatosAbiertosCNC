@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Search, ArrowRight, Database, AlertTriangle, Building2, CheckCircle2,
-  Lightbulb, Shield,
+  Lightbulb, Shield, Globe,
   TrendingUp, Eye, Gavel,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -258,6 +258,40 @@ export function HomePage() {
           </div>
         </section>
       )}
+
+      {/* 8. ESTÁNDARES INTERNACIONALES (preview) */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <h2 className="section-title">Estándares internacionales</h2>
+            <p className="text-gray-500 mt-2">Marcos globales que guían la publicación de datos para la integridad</p>
+          </div>
+          <Link to="/estandares" className="text-sm font-medium text-cnc-700 hover:text-cnc-800 inline-flex items-center gap-1">
+            Ver todos <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {[
+            { name: 'Open Data Charter', icon: 'Globe' },
+            { name: 'PIDA', icon: 'FileText' },
+            { name: 'CoST Transparency', icon: 'Building2' },
+            { name: 'Open Contracting', icon: 'ShieldCheck' },
+            { name: 'Open Ownership', icon: 'Users' },
+            { name: 'Fiscal Transparency', icon: 'Banknote' },
+          ].map((std) => (
+            <Link
+              key={std.name}
+              to="/estandares"
+              className="card group p-4 text-center hover:border-cnc-300 hover:shadow-md transition-all"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cnc-50 text-cnc-700 group-hover:bg-cnc-100 transition-colors mx-auto mb-2">
+                <DynamicIcon name={std.icon} className="h-5 w-5" />
+              </div>
+              <div className="text-xs font-semibold text-gray-900 group-hover:text-cnc-700">{std.name}</div>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* 9. CASOS DE USO (preview) */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">

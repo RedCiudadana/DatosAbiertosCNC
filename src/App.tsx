@@ -15,6 +15,7 @@ import { MetodologiaPage } from '@/pages/public/MetodologiaPage';
 import { HistoriasPage } from '@/pages/public/HistoriasPage';
 import { HistoriaDetailPage } from '@/pages/public/HistoriaDetailPage';
 import { BrechasPage } from '@/pages/public/BrechasPage';
+import { EstandaresPage } from '@/pages/public/EstandaresPage';
 
 // Admin pages
 import { AdminLoginPage } from '@/pages/admin/AdminLoginPage';
@@ -61,6 +62,7 @@ function App() {
           <Route path="/historias/:slug" element={<PublicLayout><HistoriaDetailPage /></PublicLayout>} />
           <Route path="/brechas" element={<PublicLayout><BrechasPage /></PublicLayout>} />
           <Route path="/casos-de-uso" element={<PublicLayout><UseCasesPage /></PublicLayout>} />
+          <Route path="/estandares" element={<PublicLayout><EstandaresPage /></PublicLayout>} />
           <Route path="/acerca" element={<PublicLayout><AboutPage /></PublicLayout>} />
 
           {/* Admin login */}

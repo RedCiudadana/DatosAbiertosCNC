@@ -10,6 +10,7 @@ const navLinks = [
   { label: 'Mapa de datos', path: '/mapa-datos' },
   { label: 'Casos de uso', path: '/casos-de-uso' },
   { label: 'Metodología', path: '/metodologia' },
+  { label: 'Estándares', path: '/estandares' },
   { label: 'Acerca del portal', path: '/acerca' },
 ];
 
