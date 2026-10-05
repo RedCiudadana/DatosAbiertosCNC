@@ -7,10 +7,7 @@ import { DynamicIcon } from '@/components/DynamicIcon';
 const navLinks = [
   { label: 'Inicio', path: '/' },
   { label: 'Explorar datos', path: '/explorar' },
-  { label: 'Mapa de datos', path: '/mapa-datos' },
   { label: 'Casos de uso', path: '/casos-de-uso' },
-  { label: 'Metodología', path: '/metodologia' },
-  { label: 'Estándares', path: '/estandares' },
   { label: 'Acerca del portal', path: '/acerca' },
 ];
 
