@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Shield, AlertCircle } from 'lucide-react';
+import { Mail, AlertCircle } from 'lucide-react';
 import { usePortalData } from '@/hooks/usePortalData';
 
 export function Footer() {
@@ -49,10 +49,6 @@ export function Footer() {
                   <a href={`mailto:${settings.contact_email}`} className="hover:text-white transition-colors">{settings.contact_email}</a>
                 </li>
               )}
-              <li className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-teal-400" />
-                <Link to="/admin" className="hover:text-white transition-colors">Acceso administrativo</Link>
-              </li>
             </ul>
           </div>
         </div>

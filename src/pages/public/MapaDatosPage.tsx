@@ -1,16 +1,15 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Network, Search, Building2, Database, ArrowRight, X } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { Network, Search, Building2, Database, ArrowRight } from 'lucide-react';
 import { usePortalData } from '@/hooks/usePortalData';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { StatusBadge } from '@/components/StatusBadge';
-import type { DatasetWithRelations, DatasetRelationship, Identifier } from '@/types';
+import { useState } from 'react';
 
 interface MapNode {
   id: string;
   label: string;
-  type: 'dataset' | 'domain' | 'identifier';
+  type: 'dataset' | 'domain';
   icon?: string;
   color?: string;
   x: number;
@@ -24,49 +23,17 @@ interface MapEdge {
 }
 
 export function MapaDatosPage() {
-  const { integrityDomains, identifiers, institutions } = usePortalData();
-  const [datasets, setDatasets] = useState<DatasetWithRelations[]>([]);
-  const [relationships, setRelationships] = useState<DatasetRelationship[]>([]);
-  const [datasetIdentifiers, setDatasetIdentifiers] = useState<Record<string, string[]>>({});
+  const { integrityDomains, datasets } = usePortalData();
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function load() {
-      const [dsRes, relRes, diRes] = await Promise.all([
-        supabase
-          .from('datasets')
-          .select('*, category:categories(*), institution:institutions(*), status:statuses(*)')
-          .eq('published', true)
-          .order('name'),
-        supabase.from('dataset_relationships').select('*'),
-        supabase.from('dataset_identifiers').select('dataset_id, identifier_id, identifier:identifiers(name)'),
-      ]);
-
-      const dsData = (dsRes.data || []) as unknown as DatasetWithRelations[];
-      setDatasets(dsData);
-      setRelationships((relRes.data as DatasetRelationship[]) || []);
-
-      const diMap: Record<string, string[]> = {};
-      (diRes.data || []).forEach((r: unknown) => {
-        const row = r as { dataset_id: string; identifier: { name: string } | null };
-        if (row.identifier) {
-          if (!diMap[row.dataset_id]) diMap[row.dataset_id] = [];
-          diMap[row.dataset_id].push(row.identifier.name);
-        }
-      });
-      setDatasetIdentifiers(diMap);
-      setLoading(false);
-    }
-    load();
-  }, []);
+  const published = datasets.filter((d) => d.published);
 
   const { nodes, edges } = useMemo(() => {
     const nodeList: MapNode[] = [];
     const edgeList: MapEdge[] = [];
 
     integrityDomains.forEach((d, i) => {
-      const angle = (i / integrityDomains.length) * 2 * Math.PI;
+      const angle = (i / Math.max(integrityDomains.length, 1)) * 2 * Math.PI;
       nodeList.push({
         id: `domain-${d.id}`,
         label: d.name,
@@ -78,10 +45,8 @@ export function MapaDatosPage() {
       });
     });
 
-    const dsPerDomain = 12;
-    datasets.forEach((ds, i) => {
-      const domain = integrityDomains[0];
-      const angle = (i / Math.max(datasets.length, 1)) * 2 * Math.PI;
+    published.forEach((ds, i) => {
+      const angle = (i / Math.max(published.length, 1)) * 2 * Math.PI;
       nodeList.push({
         id: `ds-${ds.id}`,
         label: ds.name,
@@ -91,26 +56,15 @@ export function MapaDatosPage() {
       });
     });
 
-    relationships.forEach((rel) => {
-      edgeList.push({
-        source: `ds-${rel.source_dataset_id}`,
-        target: `ds-${rel.target_dataset_id}`,
-        label: rel.join_field || rel.relationship_type,
-      });
-    });
-
     return { nodes: nodeList, edges: edgeList };
-  }, [integrityDomains, datasets, relationships]);
+  }, [integrityDomains, published]);
 
   const selectedDataset = selectedNode?.startsWith('ds-')
-    ? datasets.find((d) => `ds-${d.id}` === selectedNode)
+    ? published.find((d) => `ds-${d.id}` === selectedNode)
     : null;
   const selectedDomain = selectedNode?.startsWith('domain-')
     ? integrityDomains.find((d) => `domain-${d.id}` === selectedNode)
     : null;
-  const selectedDsRelationships = selectedDataset
-    ? relationships.filter((r) => r.source_dataset_id === selectedDataset.id || r.target_dataset_id === selectedDataset.id)
-    : [];
 
   return (
     <div className="animate-fade-in">
@@ -137,12 +91,6 @@ export function MapaDatosPage() {
       </section>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-
-      {loading ? (
-        <div className="animate-pulse space-y-4">
-          <div className="h-96 bg-gray-200 rounded-xl" />
-        </div>
-      ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Map visualization */}
           <div className="lg:col-span-2 card overflow-hidden relative" style={{ minHeight: '500px' }}>
@@ -205,7 +153,7 @@ export function MapaDatosPage() {
               <div className="card p-6 text-center">
                 <Search className="h-10 w-10 text-gray-200 mx-auto mb-3" />
                 <h3 className="text-sm font-semibold text-gray-900 mb-1">Selecciona un nodo</h3>
-                <p className="text-xs text-gray-500">Haz clic en cualquier nodo del mapa para ver detalles, datasets relacionados e identificadores.</p>
+                <p className="text-xs text-gray-500">Haz clic en cualquier nodo del mapa para ver detalles.</p>
               </div>
             )}
 
@@ -250,58 +198,10 @@ export function MapaDatosPage() {
                     Ver ficha completa <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
-
-                {datasetIdentifiers[selectedDataset.id] && datasetIdentifiers[selectedDataset.id].length > 0 && (
-                  <div className="card p-5">
-                    <h4 className="text-xs font-semibold text-gray-500 uppercase mb-3">Identificadores disponibles</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {datasetIdentifiers[selectedDataset.id].map((idn) => (
-                        <span key={idn} className="chip bg-blue-50 text-blue-700 text-xs">{idn}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {selectedDsRelationships.length > 0 && (
-                  <div className="card p-5">
-                    <h4 className="text-xs font-semibold text-gray-500 uppercase mb-3">Datos que puedes cruzar</h4>
-                    <div className="space-y-2">
-                      {selectedDsRelationships.map((rel) => {
-                        const targetId = rel.source_dataset_id === selectedDataset.id ? rel.target_dataset_id : rel.source_dataset_id;
-                        const target = datasets.find((d) => d.id === targetId);
-                        if (!target) return null;
-                        return (
-                          <Link
-                            key={rel.id}
-                            to={`/datasets/${target.slug}`}
-                            className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 transition-colors group"
-                          >
-                            <Database className="h-4 w-4 text-gray-300 group-hover:text-cnc-700" />
-                            <span className="text-sm text-gray-700 group-hover:text-cnc-700 flex-1 truncate">{target.name}</span>
-                            {rel.join_field && <span className="text-xs text-gray-400">{rel.join_field}</span>}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Identifiers legend */}
-            {identifiers.length > 0 && !selectedNode && (
-              <div className="card p-5">
-                <h4 className="text-xs font-semibold text-gray-500 uppercase mb-3">Identificadores de interoperabilidad</h4>
-                <div className="flex flex-wrap gap-2">
-                  {identifiers.map((idn) => (
-                    <span key={idn.id} className="chip bg-blue-50 text-blue-700 text-xs">{idn.name}</span>
-                  ))}
-                </div>
               </div>
             )}
           </div>
         </div>
-      )}
       </div>
     </div>
   );

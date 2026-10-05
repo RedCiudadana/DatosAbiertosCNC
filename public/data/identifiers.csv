@@ -1,0 +1,9 @@
+name,slug,description,display_order
+NIT,nit,Número de Identificación Tributaria. Identifica a personas y empresas ante la SAT.,1
+NOG,nog,Número de Oportunidad de Gobierno. Identifica procesos de compra en Guatecompras.,2
+NPG,npg,Número de Proceso de Guatecompras. Identifica procesos de adquisición.,3
+SNIP,snip,Código del Sistema Nacional de Inversión Pública. Identifica proyectos de inversión.,4
+Código institucional,codigo-institucional,Identificador de la institución pública responsable.,5
+Código municipal,codigo-municipal,Identificador del municipio o entidad territorial.,6
+Proveedor,proveedor,Identificador del proveedor o contratista del Estado.,7
+Unidad Ejecutora,unidad-ejecutora,Identificador de la unidad ejecutora de un proyecto o programa.,8

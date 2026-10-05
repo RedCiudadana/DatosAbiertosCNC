@@ -1,0 +1,5 @@
+name,slug,description,icon_name,color,display_order
+Individuos y organizaciones,individuos-y-organizaciones,"Registros de personas, funcionarios, empresas y organizaciones relevantes para la integridad.",Users,#1e40af,1
+Recursos públicos,recursos-publicos,"Información sobre presupuesto, gasto, contrataciones y asignación de recursos del Estado.",Banknote,#0891b2,2
+"Regulación, procesos administrativos y registros",regulacion-procesos-administrativos-registros,"Procesos administrativos, decisiones, auditorías y registros regulatorios.",ScrollText,#0d9488,3
+Extracción de rentas,extraccion-de-rentas,"Datos sobre propiedad, impuestos y declaraciones patrimoniales.",Landmark,#b45309,4

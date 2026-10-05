@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
-import type { Category, DatasetType, Status, Institution, Tag, Setting, IntegrityDomain, ResearchPath, Identifier } from '@/types';
+import { loadAllPortalData } from '@/lib/dataService';
+import type { Category, DatasetType, Status, Institution, Tag, Setting, IntegrityDomain, ResearchPath, Identifier, DatasetWithRelations } from '@/types';
 
 export function usePortalData() {
   const [settings, setSettings] = useState<Record<string, string>>({});
@@ -12,40 +12,30 @@ export function usePortalData() {
   const [integrityDomains, setIntegrityDomains] = useState<IntegrityDomain[]>([]);
   const [researchPaths, setResearchPaths] = useState<ResearchPath[]>([]);
   const [identifiers, setIdentifiers] = useState<Identifier[]>([]);
+  const [datasets, setDatasets] = useState<DatasetWithRelations[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function load() {
-      const [settingsRes, catRes, dtRes, stRes, instRes, tagRes, idRes, rpRes, idnRes] = await Promise.all([
-        supabase.from('settings').select('*'),
-        supabase.from('categories').select('*').eq('is_active', true).order('display_order'),
-        supabase.from('dataset_types').select('*').eq('is_active', true).order('display_order'),
-        supabase.from('statuses').select('*').eq('is_active', true).order('display_order'),
-        supabase.from('institutions').select('*').eq('is_active', true).order('display_order'),
-        supabase.from('tags').select('*').order('name'),
-        supabase.from('integrity_domains').select('*').eq('is_active', true).order('display_order'),
-        supabase.from('research_paths').select('*').eq('published', true).order('display_order'),
-        supabase.from('identifiers').select('*').eq('is_active', true).order('display_order'),
-      ]);
-
-      const settingsMap: Record<string, string> = {};
-      (settingsRes.data as Setting[] | null)?.forEach((s) => {
-        if (s.value) settingsMap[s.key] = s.value;
-      });
-
-      setSettings(settingsMap);
-      setCategories((catRes.data as Category[]) || []);
-      setDatasetTypes((dtRes.data as DatasetType[]) || []);
-      setStatuses((stRes.data as Status[]) || []);
-      setInstitutions((instRes.data as Institution[]) || []);
-      setTags((tagRes.data as Tag[]) || []);
-      setIntegrityDomains((idRes.data as IntegrityDomain[]) || []);
-      setResearchPaths((rpRes.data as ResearchPath[]) || []);
-      setIdentifiers((idnRes.data as Identifier[]) || []);
+    let cancelled = false;
+    loadAllPortalData().then((data) => {
+      if (cancelled) return;
+      setSettings(data.settings);
+      setCategories(data.categories);
+      setDatasetTypes(data.datasetTypes);
+      setStatuses(data.statuses);
+      setInstitutions(data.institutions);
+      setTags(data.tags);
+      setIntegrityDomains(data.integrityDomains);
+      setResearchPaths(data.researchPaths);
+      setIdentifiers(data.identifiers);
+      setDatasets(data.datasets);
       setLoading(false);
-    }
-    load();
+    }).catch((err) => {
+      console.error('Error loading portal data:', err);
+      if (!cancelled) setLoading(false);
+    });
+    return () => { cancelled = true; };
   }, []);
 
-  return { settings, categories, datasetTypes, statuses, institutions, tags, integrityDomains, researchPaths, identifiers, loading };
+  return { settings, categories, datasetTypes, statuses, institutions, tags, integrityDomains, researchPaths, identifiers, datasets, loading };
 }

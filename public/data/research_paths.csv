@@ -1,0 +1,9 @@
+title,description,icon_name,destination_url,display_order
+Seguir el dinero,Rastrea cómo se asigna y ejecuta el presupuesto público.,Banknote,/explorar?category=seguimiento-de-dinero,1
+Investigar un proveedor,Consulta qué empresas contratan con el Estado y cuánto reciben.,Building2,/explorar?q=proveedores,2
+Analizar una compra,"Revisa procesos de adquisición, adjudicaciones y contratos.",FileText,/explorar?q=compras,3
+Revisar una obra pública,"Verifica proyectos de infraestructura, inversión y avance.",HardHat,/explorar?q=infraestructura,4
+Consultar auditorías,Accede a informes de auditoría y hallazgos de control.,ShieldAlert,/explorar?q=auditorias,5
+Explorar un municipio,"Revisa presupuesto, transferencias e inversión territorial.",Map,/explorar?q=municipal,6
+Analizar empresas,"Busca información sobre empresas, representantes y vínculos.",Building2,/explorar?q=empresas,7
+Revisar gasto público,Examina la ejecución del gasto y transferencias del Estado.,Banknote,/explorar?q=gasto,8

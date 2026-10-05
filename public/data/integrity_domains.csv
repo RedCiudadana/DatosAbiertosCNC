@@ -1,0 +1,9 @@
+name,slug,description,question,icon_name,color,display_order
+Personas y poder,personas-y-poder,"Funcionarios, autoridades, personas políticamente expuestas, declaraciones de intereses y consejos.",¿Quién toma decisiones públicas?,Users,#2563eb,1
+Empresas y vínculos,empresas-y-vinculos,"Empresas, proveedores, contratistas, representantes legales y beneficiarios finales.",¿Quién recibe recursos o se relaciona económicamente con el Estado?,Building2,#0f766e,2
+Dinero público,dinero-publico,"Presupuesto, gasto, transferencias, fideicomisos y subsidios.",¿De dónde provienen y hacia dónde van los recursos públicos?,Banknote,#ca8a04,3
+Contratación pública,contratacion-publica,"Concursos, adjudicaciones, contratos, proveedores, modificaciones, inconformidades y sanciones.",¿Cómo compra el Estado y a quién?,FileText,#dc2626,4
+Obra e inversión,obra-e-inversion,"Proyectos SNIP, infraestructura, inversión pública, contratos de obra y avance financiero.",¿Dónde y cómo se ejecutan los recursos públicos?,HardHat,#7c3aed,5
+Decisiones públicas,decisiones-publicas,"Licencias, votaciones, regulaciones, resoluciones y reuniones.","¿Quién autorizó, decidió o reguló qué?",Gavel,#0891b2,6
+Control y consecuencias,control-y-consecuencias,"Auditorías, sanciones, hallazgos, inconformidades y denuncias.",¿Qué encontraron los sistemas de control?,ShieldAlert,#be123c,7
+Territorio,territorio,"Presupuesto municipal, transferencias, inversión, compras e infraestructura por departamento y municipio.",¿Qué ocurre en departamentos y municipios?,Map,#15803d,8

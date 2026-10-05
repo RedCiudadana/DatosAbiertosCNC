@@ -1,98 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Search, ArrowRight, Database, AlertTriangle, Building2, CheckCircle2,
-  Lightbulb, Shield, Globe,
-  TrendingUp, Eye, Gavel,
+  Lightbulb, Shield,
+  Eye,
 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 import { usePortalData } from '@/hooks/usePortalData';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { DatasetCard } from '@/components/DatasetCard';
 import { isOpennessOpen, isOpennessGap } from '@/lib/constants';
-import type { DatasetWithRelations, DataStory, OpeningAgendaItem } from '@/types';
 
 export function HomePage() {
-  const { settings, categories, integrityDomains, researchPaths } = usePortalData();
+  const { settings, integrityDomains, researchPaths, datasets } = usePortalData();
   const [searchQuery, setSearchQuery] = useState('');
-  const [featured, setFeatured] = useState<DatasetWithRelations[]>([]);
-  const [stats, setStats] = useState({ total: 0, open: 0, gaps: 0, institutions: 0, partial: 0, available: 0 });
-  const [statusBreakdown, setStatusBreakdown] = useState<{ name: string; color: string; count: number }[]>([]);
-  const [stories, setStories] = useState<DataStory[]>([]);
-  const [agenda, setAgenda] = useState<OpeningAgendaItem[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function loadData() {
-      const [featuredRes, statsRes, statusRes, storiesRes, agendaRes] = await Promise.all([
-        supabase
-          .from('datasets')
-          .select('*, category:categories(*), dataset_type:dataset_types(*), institution:institutions(*), status:statuses(*), tags:dataset_tags(tag:tags(*)), resources:resources(*)')
-          .eq('published', true)
-          .eq('featured', true)
-          .order('display_order')
-          .limit(6),
-        supabase
-          .from('datasets')
-          .select('id, openness_level, institution_id, status_id')
-          .eq('published', true),
-        supabase
-          .from('datasets')
-          .select('status:statuses(name, color)')
-          .eq('published', true)
-          .not('status_id', 'is', null),
-        supabase
-          .from('data_stories')
-          .select('*')
-          .eq('published', true)
-          .order('publication_date', { ascending: false })
-          .limit(3),
-        supabase
-          .from('opening_agenda')
-          .select('*')
-          .eq('published', true)
-          .order('display_order')
-          .limit(5),
-      ]);
+  const published = datasets.filter((d) => d.published);
+  const featured = published.filter((d) => d.featured).slice(0, 6);
 
-      const datasets = statsRes.data || [];
-      const institutionIds = new Set(datasets.map((d) => d.institution_id).filter(Boolean));
-      const openCount = datasets.filter((d) => isOpennessOpen((d as { openness_level: number }).openness_level)).length;
-      const gapCount = datasets.filter((d) => isOpennessGap((d as { openness_level: number }).openness_level)).length;
+  const institutionIds = new Set(published.map((d) => d.institution_id).filter(Boolean));
+  const openCount = published.filter((d) => isOpennessOpen(d.openness_level)).length;
+  const gapCount = published.filter((d) => isOpennessGap(d.openness_level)).length;
+  const partialCount = published.filter((d) => d.openness_level > 0 && d.openness_level < 4).length;
+  const availableCount = published.filter((d) => d.openness_level === 3).length;
 
-      setStats({
-        total: datasets.length,
-        open: openCount,
-        gaps: gapCount,
-        institutions: institutionIds.size,
-        partial: datasets.filter((d) => {
-          const lvl = (d as { openness_level: number }).openness_level;
-          return lvl > 0 && lvl < 4;
-        }).length,
-        available: datasets.filter((d) => (d as { openness_level: number }).openness_level === 3).length,
-      });
-
-      const stMap = new Map<string, { color: string; count: number }>();
-      (statusRes.data || []).forEach((d) => {
-        const st = (d as unknown as { status: { name: string; color: string } | null }).status;
-        if (st) {
-          const ex = stMap.get(st.name) || { color: st.color, count: 0 };
-          ex.count++;
-          stMap.set(st.name, ex);
-        }
-      });
-      setStatusBreakdown(Array.from(stMap.entries()).map(([name, v]) => ({ name, color: v.color, count: v.count })));
-
-      const featuredData = (featuredRes.data || []).map((d) => ({
-        ...d,
-        tags: (d as unknown as { tags?: { tag: unknown }[] }).tags?.map((t) => t.tag).filter(Boolean) || [],
-      })) as unknown as DatasetWithRelations[];
-      setFeatured(featuredData);
-      setStories((storiesRes.data as DataStory[]) || []);
-      setAgenda((agendaRes.data as OpeningAgendaItem[]) || []);
+  const statusMap = new Map<string, { color: string; count: number }>();
+  published.forEach((d) => {
+    if (d.status) {
+      const ex = statusMap.get(d.status.name) || { color: d.status.color, count: 0 };
+      ex.count++;
+      statusMap.set(d.status.name, ex);
     }
-    loadData();
-  }, []);
+  });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,12 +39,12 @@ export function HomePage() {
   };
 
   const indicatorCards = [
-    { label: 'Fuentes estratégicas', value: stats.total, icon: Database, color: 'text-cnc-700 bg-cnc-50' },
-    { label: 'Datos abiertos', value: stats.open, icon: CheckCircle2, color: 'text-green-700 bg-green-50' },
-    { label: 'Consulta pública', value: stats.available, icon: Eye, color: 'text-blue-700 bg-blue-50' },
-    { label: 'Datos parciales', value: stats.partial, icon: AlertTriangle, color: 'text-amber-700 bg-amber-50' },
-    { label: 'Brechas identificadas', value: stats.gaps, icon: AlertTriangle, color: 'text-red-700 bg-red-50' },
-    { label: 'Instituciones conectadas', value: stats.institutions, icon: Building2, color: 'text-teal-700 bg-teal-50' },
+    { label: 'Fuentes estratégicas', value: published.length, icon: Database, color: 'text-cnc-700 bg-cnc-50' },
+    { label: 'Datos abiertos', value: openCount, icon: CheckCircle2, color: 'text-green-700 bg-green-50' },
+    { label: 'Consulta pública', value: availableCount, icon: Eye, color: 'text-blue-700 bg-blue-50' },
+    { label: 'Datos parciales', value: partialCount, icon: AlertTriangle, color: 'text-amber-700 bg-amber-50' },
+    { label: 'Brechas identificadas', value: gapCount, icon: AlertTriangle, color: 'text-red-700 bg-red-50' },
+    { label: 'Instituciones conectadas', value: institutionIds.size, icon: Building2, color: 'text-teal-700 bg-teal-50' },
   ];
 
   return (
@@ -324,82 +263,6 @@ export function HomePage() {
           <p className="text-sm text-gray-500">Descubre cómo combinar datasets para responder preguntas concretas sobre la gestión pública.</p>
         </Link>
       </section>
-
-      {/* 11. BRECHAS PRIORITARIAS / AGENDA */}
-      {agenda.length > 0 && (
-        <section className="bg-gray-50 py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex items-end justify-between mb-8">
-              <div>
-                <h2 className="section-title">Agenda de apertura</h2>
-                <p className="text-gray-500 mt-2">Prioridades para abrir información estratégica que todavía no está disponible</p>
-              </div>
-              <Link to="/brechas" className="text-sm font-medium text-cnc-700 hover:text-cnc-800 inline-flex items-center gap-1">
-                Ver agenda completa <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="space-y-3">
-              {agenda.map((item) => (
-                <div key={item.id} className="card p-5 flex items-center gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-semibold text-gray-900">{item.information}</div>
-                    {item.situation && <div className="text-xs text-gray-500 mt-0.5">{item.situation}</div>}
-                  </div>
-                  <div className="hidden sm:block w-32">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-gray-400">Avance</span>
-                      <span className="text-xs font-medium text-gray-700">{item.progress}%</span>
-                    </div>
-                    <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-                      <div className="h-full rounded-full bg-teal-500" style={{ width: `${item.progress}%` }} />
-                    </div>
-                  </div>
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${item.priority === 'critica' ? 'bg-red-100 text-red-700' : item.priority === 'alta' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'}`}>
-                    {item.priority}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 12. HISTORIAS CON DATOS */}
-      {stories.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <h2 className="section-title">Historias con datos</h2>
-              <p className="text-gray-500 mt-2">Análisis e investigaciones realizadas con los datasets del portal</p>
-            </div>
-            <Link to="/historias" className="text-sm font-medium text-cnc-700 hover:text-cnc-800 inline-flex items-center gap-1">
-              Ver todas <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {stories.map((story) => (
-              <Link
-                key={story.id}
-                to={`/historias/${story.slug}`}
-                className="card group overflow-hidden hover:border-cnc-300 hover:shadow-md transition-all"
-              >
-                {story.cover_image && (
-                  <div className="aspect-video bg-gray-100 overflow-hidden">
-                    <img src={story.cover_image} alt={story.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                  </div>
-                )}
-                <div className="p-5">
-                  <h3 className="text-sm font-bold text-gray-900 group-hover:text-cnc-700 mb-1 line-clamp-2">{story.title}</h3>
-                  {story.summary && <p className="text-xs text-gray-500 line-clamp-3">{story.summary}</p>}
-                  {story.author && <div className="text-xs text-gray-400 mt-2">{story.author}</div>}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
-
     </div>
   );
 }

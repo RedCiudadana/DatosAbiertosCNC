@@ -1,0 +1,9 @@
+name,slug,description,color,icon_name,display_order
+Datos abiertos,datos-abiertos,"Datos estructurados, descargables y reutilizables.",#16a34a,CircleCheck,1
+Restringido,restringido,"La información existe, pero requiere permisos, pagos, registro o condiciones especiales.",#ea580c,Lock,2
+Disponible,disponible,"Información disponible mediante buscador, plataforma o consulta web, pero sin descarga masiva sencilla.",#2563eb,CircleDashed,2
+Parcial,parcial,"Existe información, pero tiene cobertura incompleta, fragmentación institucional o limitaciones importantes.",#ca8a04,CircleDot,3
+Brecha,brecha,No se ha identificado publicación pública suficiente.,#dc2626,CircleX,4
+No disponible,no-disponible,La información no está disponible públicamente.,#6b7280,CircleOff,5
+En desarrollo,en-desarrollo,El conjunto de datos está en proceso de publicación.,#ea580c,CircleLoader,6
+Pendiente de evaluación,pendiente-de-evaluacion,Todavía no ha sido analizado.,#9ca3af,Circle,7

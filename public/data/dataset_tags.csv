@@ -1,0 +1,60 @@
+dataset_slug,tag_name,tag_slug
+asociaciones-publico-privadas,PIDA,pida
+cambios-en-regulaciones,PIDA,pida
+consejos-consultivos-de-gobierno,Lobbying,lobbying
+consejos-consultivos-de-gobierno,PIDA,pida
+contratistas-sancionados,Contrataciones públicas,contrataciones-publicas
+contratistas-sancionados,PIDA,pida
+contratistas-sancionados,Sanciones,sanciones
+contratos-de-gobierno,Contrataciones públicas,contrataciones-publicas
+contratos-de-gobierno,Empresas,empresas
+contratos-de-gobierno,PIDA,pida
+cooperacion-internacional,PIDA,pida
+datos-de-auditorias,Auditoría,auditoria
+datos-de-auditorias,PIDA,pida
+decisiones-judiciales,PIDA,pida
+declaracion-de-intereses,Funcionarios públicos,funcionarios-publicos
+declaracion-de-intereses,Patrimonio,patrimonio
+declaracion-de-intereses,PIDA,pida
+declaracion-patrimonial,Funcionarios públicos,funcionarios-publicos
+declaracion-patrimonial,Patrimonio,patrimonio
+declaracion-patrimonial,PIDA,pida
+estadisticas-tributarias,Impuestos,impuestos
+estadisticas-tributarias,PIDA,pida
+financiamiento-a-partidos-politicos,Partidos políticos,partidos-politicos
+financiamiento-a-partidos-politicos,PIDA,pida
+gasto-publico,PIDA,pida
+gasto-publico,Presupuesto,presupuesto
+licencias,PIDA,pida
+lista-de-contratistas-de-gobierno,Contrataciones públicas,contrataciones-publicas
+lista-de-contratistas-de-gobierno,Empresas,empresas
+lista-de-contratistas-de-gobierno,PIDA,pida
+personas-politicamente-expuestas,Funcionarios públicos,funcionarios-publicos
+personas-politicamente-expuestas,PIDA,pida
+presupuesto-general-de-la-nacion,PIDA,pida
+presupuesto-general-de-la-nacion,Presupuesto,presupuesto
+procesos-de-compra-en-guatecompras,Contrataciones públicas,contrataciones-publicas
+procesos-de-compra-en-guatecompras,PIDA,pida
+promesas-de-campana,Partidos políticos,partidos-politicos
+promesas-de-campana,PIDA,pida
+quejas-a-procesos-de-adquisicion,Contrataciones públicas,contrataciones-publicas
+quejas-a-procesos-de-adquisicion,PIDA,pida
+record-de-reuniones,Lobbying,lobbying
+record-de-reuniones,PIDA,pida
+registro-de-cabilderos,Lobbying,lobbying
+registro-de-cabilderos,PIDA,pida
+registro-de-companias,Empresas,empresas
+registro-de-companias,PIDA,pida
+registro-de-obras-de-infraestructura-prioritarias,Infraestructura,infraestructura
+registro-de-obras-de-infraestructura-prioritarias,PIDA,pida
+registro-de-organizaciones-beneficas,PIDA,pida
+registro-de-servidores-publicos,Funcionarios públicos,funcionarios-publicos
+registro-de-servidores-publicos,PIDA,pida
+registro-publico-de-la-propiedad,PIDA,pida
+registro-publico-de-la-propiedad,Propiedad,propiedad
+servidores-publicos-en-procesos-de-contratacion,Funcionarios públicos,funcionarios-publicos
+servidores-publicos-en-procesos-de-contratacion,PIDA,pida
+subsidios-de-gobierno,PIDA,pida
+subsidios-de-gobierno,Presupuesto,presupuesto
+votaciones-del-congreso,Partidos políticos,partidos-politicos
+votaciones-del-congreso,PIDA,pida

@@ -1,0 +1,4 @@
+name,slug,description,icon_name,display_order
+Registro,registro,Conjuntos de datos que funcionan como registros públicos.,Database,1
+Transacción,transaccion,Conjuntos de datos sobre transacciones o eventos específicos.,ArrowRightLeft,2
+Divulgación pública,divulgacion-publica,Conjuntos de datos que resultan de obligaciones de divulgación.,FileText,3

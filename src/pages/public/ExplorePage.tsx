@@ -1,18 +1,13 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, Filter, X, Download, FileJson } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 import { usePortalData } from '@/hooks/usePortalData';
 import { DatasetCard } from '@/components/DatasetCard';
 import { ANTI_CORRUPTION_VALUES } from '@/lib/constants';
-import type { DatasetWithRelations } from '@/types';
 
 export function ExplorePage() {
-  const { categories, datasetTypes, statuses, institutions } = usePortalData();
+  const { categories, datasetTypes, statuses, institutions, datasets } = usePortalData();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [datasets, setDatasets] = useState<DatasetWithRelations[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [totalCount, setTotalCount] = useState(0);
 
   const q = searchParams.get('q') || '';
   const categoryFilter = searchParams.get('category') || '';
@@ -32,56 +27,40 @@ export function ExplorePage() {
     setSearchParams(new URLSearchParams());
   }, [setSearchParams]);
 
-  useEffect(() => {
-    async function loadDatasets() {
-      setLoading(true);
-      let query = supabase
-        .from('datasets')
-        .select('*, category:categories(*), dataset_type:dataset_types(*), institution:institutions(*), status:statuses(*), tags:dataset_tags(tag:tags(*)), resources:resources(*)')
-        .eq('published', true);
+  const filtered = useMemo(() => {
+    let result = datasets.filter((d) => d.published);
 
-      if (q) {
-        query = query.or(`name.ilike.%${q}%,short_description.ilike.%${q}%,description.ilike.%${q}%`);
-      }
-      if (categoryFilter) {
-        const cat = categories.find((c) => c.slug === categoryFilter);
-        if (cat) query = query.eq('category_id', cat.id);
-      }
-      if (typeFilter) {
-        const dt = datasetTypes.find((t) => t.slug === typeFilter);
-        if (dt) query = query.eq('dataset_type_id', dt.id);
-      }
-      if (statusFilter) {
-        const st = statuses.find((s) => s.slug === statusFilter);
-        if (st) query = query.eq('status_id', st.id);
-      }
-      if (institutionFilter) {
-        const inst = institutions.find((i) => i.slug === institutionFilter);
-        if (inst) query = query.eq('institution_id', inst.id);
-      }
-      if (acFilter) {
-        if (acFilter === 'prevention') query = query.eq('anti_corruption_prevention', true);
-        if (acFilter === 'detection') query = query.eq('anti_corruption_detection', true);
-        if (acFilter === 'investigation') query = query.eq('anti_corruption_investigation', true);
-      }
-
-      query = query.order('featured', { ascending: false }).order('display_order').order('name');
-      const { data, count } = await query;
-      const transformed = (data || []).map((d) => ({
-        ...d,
-        tags: (d as unknown as { tags?: { tag: unknown }[] }).tags?.map((t) => t.tag).filter(Boolean) || [],
-      })) as unknown as DatasetWithRelations[];
-      setDatasets(transformed);
-      setTotalCount(count || transformed.length);
-      setLoading(false);
+    if (q) {
+      const lower = q.toLowerCase();
+      result = result.filter((d) =>
+        d.name.toLowerCase().includes(lower) ||
+        (d.short_description || '').toLowerCase().includes(lower) ||
+        (d.description || '').toLowerCase().includes(lower)
+      );
     }
-    loadDatasets();
-  }, [q, categoryFilter, typeFilter, statusFilter, institutionFilter, acFilter, categories, datasetTypes, statuses, institutions]);
+    if (categoryFilter) result = result.filter((d) => d.category?.slug === categoryFilter);
+    if (typeFilter) result = result.filter((d) => d.dataset_type?.slug === typeFilter);
+    if (statusFilter) result = result.filter((d) => d.status?.slug === statusFilter);
+    if (institutionFilter) result = result.filter((d) => d.institution?.slug === institutionFilter);
+    if (acFilter) {
+      if (acFilter === 'prevention') result = result.filter((d) => d.anti_corruption_prevention);
+      if (acFilter === 'detection') result = result.filter((d) => d.anti_corruption_detection);
+      if (acFilter === 'investigation') result = result.filter((d) => d.anti_corruption_investigation);
+    }
+
+    result = [...result].sort((a, b) => {
+      if (a.featured !== b.featured) return a.featured ? -1 : 1;
+      if (a.display_order !== b.display_order) return a.display_order - b.display_order;
+      return a.name.localeCompare(b.name);
+    });
+
+    return result;
+  }, [datasets, q, categoryFilter, typeFilter, statusFilter, institutionFilter, acFilter]);
 
   const hasFilters = q || categoryFilter || typeFilter || statusFilter || institutionFilter || acFilter;
 
   const downloadInventory = (format: 'csv' | 'json') => {
-    const rows = datasets.map((d) => ({
+    const rows = filtered.map((d) => ({
       name: d.name, slug: d.slug, description: d.short_description,
       category: d.category?.name || '', type: d.dataset_type?.name || '',
       institution: d.institution?.name || '', status: d.status?.name || '',
@@ -178,7 +157,7 @@ export function ExplorePage() {
         <div className="lg:col-span-3">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm text-gray-500">
-              {loading ? 'Cargando...' : `${totalCount} conjunto${totalCount !== 1 ? 's' : ''} encontrado${totalCount !== 1 ? 's' : ''}`}
+              {filtered.length} conjunto{filtered.length !== 1 ? 's' : ''} encontrado{filtered.length !== 1 ? 's' : ''}
             </p>
             <div className="flex items-center gap-2">
               <button onClick={() => downloadInventory('csv')} className="btn-ghost text-xs" title="Descargar CSV">
@@ -190,23 +169,7 @@ export function ExplorePage() {
             </div>
           </div>
 
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="card p-5 animate-pulse">
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className="h-12 w-12 rounded-xl bg-gray-200" />
-                    <div className="flex-1 space-y-2">
-                      <div className="h-4 bg-gray-200 rounded w-3/4" />
-                      <div className="h-3 bg-gray-200 rounded w-1/2" />
-                    </div>
-                  </div>
-                  <div className="h-3 bg-gray-200 rounded mb-2" />
-                  <div className="h-3 bg-gray-200 rounded w-2/3" />
-                </div>
-              ))}
-            </div>
-          ) : datasets.length === 0 ? (
+          {filtered.length === 0 ? (
             <div className="card p-12 text-center">
               <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-gray-900 mb-2">No se encontraron conjuntos</h3>
@@ -215,7 +178,7 @@ export function ExplorePage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {datasets.map((ds) => <DatasetCard key={ds.id} dataset={ds} />)}
+              {filtered.map((ds) => <DatasetCard key={ds.id} dataset={ds} />)}
             </div>
           )}
         </div>

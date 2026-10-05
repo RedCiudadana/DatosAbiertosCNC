@@ -1,14 +1,3 @@
-export type Role = 'super_admin' | 'editor' | 'revisor' | 'consulta';
-
-export interface Profile {
-  id: string;
-  email: string;
-  full_name: string | null;
-  role: Role;
-  created_at: string;
-  updated_at: string;
-}
-
 export interface Category {
   id: string;
   name: string;
@@ -68,23 +57,6 @@ export interface Tag {
   created_at: string;
 }
 
-export interface PidaTopic {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  category_id: string | null;
-  dataset_type_id: string | null;
-  icon_name: string;
-  anti_corruption_prevention: boolean;
-  anti_corruption_detection: boolean;
-  anti_corruption_investigation: boolean;
-  display_order: number;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
 export interface Dataset {
   id: string;
   name: string;
@@ -139,14 +111,8 @@ export interface DatasetWithRelations extends Dataset {
   dataset_type?: DatasetType | null;
   institution?: Institution | null;
   status?: Status | null;
-  pida_topic?: PidaTopic | null;
   tags?: Tag[];
   resources?: Resource[];
-  integrity_domains?: IntegrityDomain[];
-  questions?: DatasetQuestion[];
-  relationships?: DatasetRelationship[];
-  identifiers?: Identifier[];
-  assessment?: DatasetAssessment | null;
 }
 
 export interface Resource {
@@ -164,44 +130,6 @@ export interface Resource {
   is_active: boolean;
   display_order: number;
   created_at: string;
-}
-
-export interface UseCase {
-  id: string;
-  title: string;
-  slug: string;
-  description: string | null;
-  methodology: string | null;
-  results: string | null;
-  links: { label: string; url: string }[] | null;
-  published: boolean;
-  display_order: number;
-  created_at: string;
-  updated_at: string;
-  datasets?: Dataset[];
-}
-
-export interface AuditLog {
-  id: string;
-  user_id: string | null;
-  user_email: string | null;
-  action: string;
-  entity: string;
-  entity_id: string | null;
-  changes: Record<string, unknown> | null;
-  created_at: string;
-}
-
-export interface FileRecord {
-  id: string;
-  name: string;
-  original_name: string | null;
-  storage_path: string;
-  mime_type: string | null;
-  size: number | null;
-  category: string;
-  created_at: string;
-  created_by: string | null;
 }
 
 export interface Setting {
@@ -237,25 +165,6 @@ export interface ResearchPath {
   created_at: string;
 }
 
-export interface DatasetQuestion {
-  id: string;
-  dataset_id: string;
-  question: string;
-  display_order: number;
-  created_at: string;
-}
-
-export interface DatasetRelationship {
-  id: string;
-  source_dataset_id: string;
-  target_dataset_id: string;
-  relationship_type: string;
-  description: string | null;
-  join_field: string | null;
-  display_order: number;
-  created_at: string;
-}
-
 export interface Identifier {
   id: string;
   name: string;
@@ -266,57 +175,19 @@ export interface Identifier {
   created_at: string;
 }
 
-export interface DatasetAssessment {
-  id: string;
-  dataset_id: string;
-  access_score: number;
-  reuse_score: number;
-  update_score: number;
-  coverage_score: number;
-  quality_score: number;
-  documentation_score: number;
-  identifiers_score: number;
-  interoperability_score: number;
-  governance_score: number;
-  total_score: number;
-  prevention_score: number;
-  detection_score: number;
-  investigation_score: number;
-  social_control_score: number;
-  traceability_score: number;
-  ac_total_score: number;
-  evaluator: string | null;
-  evaluation_date: string | null;
-  notes: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Investigation {
+export interface UseCase {
   id: string;
   title: string;
   slug: string;
-  question: string;
   description: string | null;
   methodology: string | null;
-  icon_name: string;
+  results: string | null;
+  links: { label: string; url: string }[] | null;
   published: boolean;
   display_order: number;
   created_at: string;
   updated_at: string;
-}
-
-export interface DatasetFeedback {
-  id: string;
-  dataset_id: string | null;
-  name: string | null;
-  email: string | null;
-  feedback_type: string;
-  comment: string;
-  status: string;
-  response: string | null;
-  created_at: string;
-  updated_at: string;
+  datasets?: Dataset[];
 }
 
 export interface DataStory {

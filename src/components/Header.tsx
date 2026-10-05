@@ -69,10 +69,7 @@ export function Header() {
                 <Globe className="h-4 w-4" />
               </a>
             </div>
-            <div className="hidden sm:block h-4 w-px bg-cnc-700" />
-            <Link to="/admin" className="text-xs text-cnc-200 hover:text-white transition-colors font-medium">
-              Administración
-            </Link>
+
           </div>
         </div>
       </div>
@@ -83,7 +80,7 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0 bg-cnc-900 rounded-lg px-3 py-1.5 hover:bg-cnc-800 transition-colors">
             <img
-              src="https://guatemala.gob.gt/wp-content/uploads/2024/09/GOBHorizontal-Blanco_1.png"
+              src="/gob-guatemala-blanco.svg"
               alt="Gobierno de Guatemala"
               className="h-8 w-auto"
             />

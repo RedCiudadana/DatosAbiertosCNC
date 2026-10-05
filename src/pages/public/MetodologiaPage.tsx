@@ -1,28 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FileText, Gauge, ShieldCheck, AlertTriangle, TrendingUp, ArrowRight } from 'lucide-react';
 import { usePortalData } from '@/hooks/usePortalData';
+import { FileText, Gauge, ShieldCheck, TrendingUp, ArrowRight } from 'lucide-react';
 import { ASSESSMENT_DIMENSIONS, AC_ASSESSMENT_DIMENSIONS } from '@/lib/constants';
-import { supabase } from '@/lib/supabase';
-import type { DatasetAssessment } from '@/types';
+import { Link } from 'react-router-dom';
 
 export function MetodologiaPage() {
-  const { settings, statuses } = usePortalData();
-  const [assessments, setAssessments] = useState<DatasetAssessment[]>([]);
+  const { settings, statuses, datasets } = usePortalData();
 
-  useEffect(() => {
-    supabase
-      .from('dataset_assessments')
-      .select('*')
-      .then(({ data }) => setAssessments((data as DatasetAssessment[]) || []));
-  }, []);
-
-  const avgMaturity = assessments.length > 0
-    ? Math.round(assessments.reduce((s, a) => s + a.total_score, 0) / assessments.length)
-    : 0;
-  const avgUtility = assessments.length > 0
-    ? Math.round(assessments.reduce((s, a) => s + a.ac_total_score, 0) / assessments.length)
-    : 0;
+  const published = datasets.filter((d) => d.published);
+  const gapCount = published.filter((d) => d.openness_level === 0).length;
+  const openCount = published.filter((d) => d.openness_level >= 4).length;
 
   return (
     <div className="animate-fade-in">
@@ -85,23 +71,23 @@ export function MetodologiaPage() {
           <div className="card p-5">
             <div className="flex items-center gap-2 mb-2">
               <Gauge className="h-5 w-5 text-cnc-700" />
-              <span className="text-xs font-semibold text-gray-500 uppercase">Madurez promedio</span>
+              <span className="text-xs font-semibold text-gray-500 uppercase">Datasets totales</span>
             </div>
-            <div className="text-3xl font-bold text-gray-900">{avgMaturity}<span className="text-lg text-gray-400">/100</span></div>
+            <div className="text-3xl font-bold text-gray-900">{published.length}</div>
           </div>
           <div className="card p-5">
             <div className="flex items-center gap-2 mb-2">
-              <ShieldCheck className="h-5 w-5 text-teal-600" />
-              <span className="text-xs font-semibold text-gray-500 uppercase">Utilidad anticorrupción promedio</span>
+              <ShieldCheck className="h-5 w-5 text-green-600" />
+              <span className="text-xs font-semibold text-gray-500 uppercase">Datos abiertos</span>
             </div>
-            <div className="text-3xl font-bold text-gray-900">{avgUtility}<span className="text-lg text-gray-400">/100</span></div>
+            <div className="text-3xl font-bold text-gray-900">{openCount}</div>
           </div>
           <div className="card p-5">
             <div className="flex items-center gap-2 mb-2">
-              <TrendingUp className="h-5 w-5 text-blue-600" />
-              <span className="text-xs font-semibold text-gray-500 uppercase">Datasets evaluados</span>
+              <TrendingUp className="h-5 w-5 text-red-600" />
+              <span className="text-xs font-semibold text-gray-500 uppercase">Brechas</span>
             </div>
-            <div className="text-3xl font-bold text-gray-900">{assessments.length}</div>
+            <div className="text-3xl font-bold text-gray-900">{gapCount}</div>
           </div>
         </div>
         <div className="space-y-3">
@@ -151,13 +137,10 @@ export function MetodologiaPage() {
         <h2 className="text-xl font-bold text-gray-900 mb-4">Matriz Madurez vs Utilidad</h2>
         <div className="card p-6">
           <div className="relative aspect-square max-w-md mx-auto">
-            {/* Axes */}
             <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-300" />
             <div className="absolute left-0 bottom-0 right-0 h-px bg-gray-300" />
-            {/* Labels */}
             <div className="absolute -left-2 top-1/2 -translate-y-1/2 -rotate-90 text-xs text-gray-500 font-medium">Utilidad →</div>
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xs text-gray-500 font-medium mt-2">Madurez →</div>
-            {/* Quadrants */}
             <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
               <div className="border-r border-b border-dashed border-gray-200 flex items-center justify-center p-4">
                 <div className="text-center">
