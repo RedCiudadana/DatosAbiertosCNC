@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Search, ArrowRight, Database, AlertTriangle, Building2, CheckCircle2,
-  BarChart3, Network, Lightbulb, FileText, Map as MapIcon, Shield,
+  Lightbulb, Shield,
   TrendingUp, Eye, Gavel,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -210,7 +210,9 @@ export function HomePage() {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {integrityDomains.map((domain) => (
+            {integrityDomains
+              .filter((domain) => !['Decisiones públicas', 'Control y consecuencias', 'Territorio'].includes(domain.name))
+              .map((domain) => (
               <Link
                 key={domain.id}
                 to={`/explorar?domain=${domain.slug}`}
@@ -256,48 +258,6 @@ export function HomePage() {
           </div>
         </section>
       )}
-
-      {/* 8. MAPA DE DATOS (preview) */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="card overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            <div className="p-8 lg:p-12">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
-                  <Network className="h-6 w-6" />
-                </div>
-                <h2 className="text-2xl font-bold text-gray-900">Mapa de Datos para la Integridad</h2>
-              </div>
-              <p className="text-gray-600 leading-relaxed mb-6">
-                Visualiza cómo se conectan los datasets: personas, empresas, proveedores, presupuesto,
-                contratos, obras, auditorías y sanciones. Descubre qué datos puedes cruzar y qué identificadores
-                permiten interoperabilidad.
-              </p>
-              <Link to="/mapa-datos" className="btn-primary">
-                Abrir mapa de datos
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="relative min-h-[300px] overflow-hidden">
-              <img
-                src="https://images.pexels.com/photos/39041186/pexels-photo-39041186.jpeg?auto=compress&cs=tinysrgb&w=940"
-                alt="Colinas verdes y ciudad en Guatemala"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-cnc-900/40 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-2">
-                {['Users', 'Building2', 'Banknote', 'FileText', 'HardHat', 'Gavel', 'ShieldAlert', 'Map', 'BarChart3'].map((icon, i) => (
-                  <div key={i} className="flex items-center justify-center">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/90 shadow-md text-cnc-700 backdrop-blur-sm">
-                      <DynamicIcon name={icon} className="h-5 w-5" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* 9. CASOS DE USO (preview) */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
@@ -390,53 +350,7 @@ export function HomePage() {
         </section>
       )}
 
-      {/* 13. INSTITUCIONES (preview) */}
-      <section className="relative overflow-hidden py-20">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/11733119/pexels-photo-11733119.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt="Volcán y pueblo en Guatemala"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-cnc-900/80" />
-        </div>
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center text-white">
-          <Building2 className="h-12 w-12 text-teal-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-white">Instituciones conectadas</h2>
-          <p className="text-cnc-200 mt-2 max-w-xl mx-auto">
-            {stats.institutions} instituciones públicas publican o administran los datos disponibles en el portal.
-          </p>
-          <Link to="/explorar" className="btn-primary mt-6">
-            Explorar por institución
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </section>
 
-      {/* 14. METODOLOGÍA (preview) */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="card p-8 lg:p-12">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-              <FileText className="h-6 w-6" />
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900">Metodología de evaluación</h2>
-          </div>
-          <p className="text-gray-600 leading-relaxed mb-6 max-w-2xl">
-            Conoce cómo evaluamos la madurez de los datos, su utilidad anticorrupción, qué significa cada estado
-            de disponibilidad y cómo identificamos brechas de información.
-          </p>
-          {settings.integrity_disclaimer && (
-            <div className="rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 mb-6">
-              <p className="text-xs text-amber-900 leading-relaxed">{settings.integrity_disclaimer}</p>
-            </div>
-          )}
-          <Link to="/metodologia" className="btn-primary">
-            Conocer la metodología
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }
