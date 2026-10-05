@@ -62,7 +62,21 @@ export function Footer() {
           </div>
         )}
 
-        <div className="mt-8 pt-8 border-t border-cnc-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-8 pt-6 border-t border-cnc-800">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 py-4 rounded-lg bg-cnc-800/40 px-4">
+            <span className="text-xs text-gray-400">Con la asistencia técnica de</span>
+            <a
+              href="https://redciudadana.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-semibold text-teal-400 hover:text-teal-300 transition-colors"
+            >
+              Asociación Civil Red Ciudadana
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-6 pt-6 border-t border-cnc-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-500">
             © {new Date().getFullYear()} {settings.portal_name || 'CNC Guatemala'}. Todos los derechos reservados.
           </p>
