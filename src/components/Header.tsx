@@ -82,7 +82,7 @@ export function Header() {
             <img
               src="/gob-guatemala-blanco.svg"
               alt="Gobierno de Guatemala"
-              className="h-8 w-auto"
+              className="h-12 w-auto"
             />
           </Link>
 
