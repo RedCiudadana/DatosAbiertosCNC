@@ -51,9 +51,13 @@ export function AdminLayout({ children }: { children: ReactNode }) {
         <div className="flex items-center justify-between p-4 border-b border-cnc-800">
           <Link to="/admin" className="flex items-center gap-3 flex-1 min-w-0">
             <img
-              src="https://guatemala.gob.gt/wp-content/uploads/2024/09/GOBHorizontal-Blanco_1.png"
+              src="/gob-guatemala-blanco.svg"
               alt="Gobierno de Guatemala"
-              className="h-9 w-auto max-w-[160px] object-contain"
+              className="h-10 w-auto max-w-[170px] object-contain"
+              onError={(e) => {
+                const img = e.target as HTMLImageElement;
+                img.style.display = 'none';
+              }}
             />
           </Link>
           <button className="lg:hidden text-gray-400 shrink-0" onClick={() => setSidebarOpen(false)}>
