@@ -177,33 +177,33 @@ export function EstandaresPage() {
           {standards.map((std) => (
             <div key={std.name} className="card overflow-hidden group hover:shadow-lg transition-shadow">
               {/* Header */}
-              <div className={`px-6 py-5 ${std.bgColor} border-b border-gray-100`}>
-                <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white shadow-sm shrink-0 overflow-hidden">
-                    {std.logo ? (
-                      <img
-                        src={std.logo}
-                        alt={`Logo ${std.name}`}
-                        className="max-h-10 max-w-10 object-contain"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
-                      />
-                    ) : (
-                      <span className={`text-xl font-bold ${std.color}`}>
-                        {std.name.charAt(0)}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h2 className="text-lg font-bold text-gray-900">{std.name}</h2>
-                    <p className="text-sm text-gray-500 mt-0.5">{std.fullName}</p>
-                  </div>
-                </div>
+              <div className={`flex items-center justify-center aspect-[16/7] ${std.bgColor} border-b border-gray-100 overflow-hidden px-6 py-4`}>
+                {std.logo ? (
+                  <img
+                    src={std.logo}
+                    alt={`Logo ${std.name}`}
+                    className="max-h-full max-w-full object-contain"
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement;
+                      img.style.display = 'none';
+                      img.nextElementSibling && (img.nextElementSibling as HTMLElement).style.removeProperty('display');
+                    }}
+                  />
+                ) : null}
+                {!std.logo && (
+                  <span className={`text-3xl font-bold ${std.color}`}>{std.name.charAt(0)}</span>
+                )}
+                {std.logo && (
+                  <span className={`text-3xl font-bold ${std.color}`} style={{ display: 'none' }}>{std.name.charAt(0)}</span>
+                )}
               </div>
 
               {/* Body */}
               <div className="p-6 space-y-5">
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900">{std.name}</h2>
+                  <p className="text-sm text-gray-500 mt-0.5">{std.fullName}</p>
+                </div>
                 <p className="text-sm text-gray-600 leading-relaxed">{std.description}</p>
 
                 {/* Principles */}

@@ -270,7 +270,7 @@ export function HomePage() {
             Ver todos <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
           {[
             { name: 'Open Data Charter', logo: 'https://opendatacharter.org/wp-content/themes/open-data-theme/images/svg/ODC_Logo.svg' },
             { name: 'PIDA', logo: '' },
@@ -282,23 +282,27 @@ export function HomePage() {
             <Link
               key={std.name}
               to="/estandares"
-              className="card group p-4 text-center hover:border-cnc-300 hover:shadow-md transition-all"
+              title={std.name}
+              className="card group flex items-center justify-center aspect-square p-4 hover:border-cnc-300 hover:shadow-md transition-all"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cnc-50 group-hover:bg-cnc-100 transition-colors mx-auto mb-2 overflow-hidden">
-                {std.logo ? (
-                  <img
-                    src={std.logo}
-                    alt={std.name}
-                    className="max-h-7 max-w-7 object-contain"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none';
-                    }}
-                  />
-                ) : (
-                  <span className="text-sm font-bold text-cnc-700">{std.name.charAt(0)}</span>
-                )}
-              </div>
-              <div className="text-xs font-semibold text-gray-900 group-hover:text-cnc-700">{std.name}</div>
+              {std.logo ? (
+                <img
+                  src={std.logo}
+                  alt={std.name}
+                  className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    const img = e.target as HTMLImageElement;
+                    img.style.display = 'none';
+                    img.nextElementSibling && (img.nextElementSibling as HTMLElement).style.removeProperty('display');
+                  }}
+                />
+              ) : null}
+              {!std.logo && (
+                <span className="text-2xl font-bold text-cnc-700">{std.name.charAt(0)}</span>
+              )}
+              {std.logo && (
+                <span className="text-2xl font-bold text-cnc-700" style={{ display: 'none' }}>{std.name.charAt(0)}</span>
+              )}
             </Link>
           ))}
         </div>
