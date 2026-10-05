@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { Menu, X, Search, Database, Shield } from 'lucide-react';
+import { Menu, X, Search, Database, Shield, Instagram, Globe } from 'lucide-react';
 import { usePortalData } from '@/hooks/usePortalData';
 import { DynamicIcon } from '@/components/DynamicIcon';
 
@@ -38,9 +38,43 @@ export function Header() {
             <Shield className="h-3.5 w-3.5 text-teal-300" />
             <span className="font-medium">{settings.portal_name || 'CNC Guatemala'}</span>
           </div>
-          <Link to="/admin" className="text-xs text-cnc-200 hover:text-white transition-colors font-medium">
-            Administración
-          </Link>
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-2.5">
+              <a
+                href="https://www.instagram.com/CNCguatemala/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram CNC Guatemala"
+                className="text-cnc-200 hover:text-white transition-colors"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+              <a
+                href="https://x.com/CNCguatemala"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X (Twitter) CNC Guatemala"
+                className="text-cnc-200 hover:text-white transition-colors"
+              >
+                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+              <a
+                href="https://cnc.gob.gt/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Sitio web CNC Guatemala"
+                className="text-cnc-200 hover:text-white transition-colors"
+              >
+                <Globe className="h-4 w-4" />
+              </a>
+            </div>
+            <div className="hidden sm:block h-4 w-px bg-cnc-700" />
+            <Link to="/admin" className="text-xs text-cnc-200 hover:text-white transition-colors font-medium">
+              Administración
+            </Link>
+          </div>
         </div>
       </div>
 
